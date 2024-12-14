@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.card{
+border-bottom: 1px solid #333435;
+cursor: pointer;
+}
+.wrapper .h1{
+width: 34.46px;
+  height: 18px ; 
+}
