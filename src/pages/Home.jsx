@@ -37,13 +37,13 @@ function Home() {
         ],
     };
 
-    const filteredCoins = coins.filter((coin) =>
+    const searchCoin = coins.filter((coin) =>
         coin.name.toLowerCase().includes(search.toLowerCase())
     );
 
     const indexOfLastCoin = currentPage * coinsPerPage;
     const indexOfFirstCoin = indexOfLastCoin - coinsPerPage;
-    const currentCoins = filteredCoins.slice(indexOfFirstCoin, indexOfLastCoin);
+    const currentCoins = searchCoin.slice(indexOfFirstCoin, indexOfLastCoin);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -69,26 +69,22 @@ function Home() {
                 <div className="absolute inset-0 flex items-center justify-center mt-24">
                     <div className="w-full max-w-5xl">
                         <Slider {...carusel}>
-                            {coins.slice(0, 10).map((coin) => (
-                                <div key={coin.id} className="p-4">
-                                    <div className="text-white shadow-md rounded-lg text-center">
+                            {coins.slice(0, 20).map((coin) => (
+                                <Link to={`/coin/${coin.id}`} key={coin.id} className="p-4">
+                                    <div className="text-white shadow-md rounded-lg text-center cursor-pointer">
                                         <img src={coin.image} alt={coin.name} className="w-20 h-20 mx-auto mt-4" />
                                         <h2 className="text-xl font-semibold mt-2">{coin.name}</h2>
                                         <p className="text-sm text-gray-400">
                                             {currency} {coin.current_price.toFixed(2)}
                                         </p>
-                                        <p
-                                            className={`text-sm font-medium mt-1 ${coin.price_change_percentage_24h > 0
-                                                    ? 'text-green-400'
-                                                    : 'text-red-400'
-                                                }`}
-                                        >
+                                        <p className={`text-sm font-medium mt-1 ${coin.price_change_percentage_24h > 0 ? 'text-green-400' : 'text-red-400' }`} >
                                             {coin.price_change_percentage_24h.toFixed(2)}%
                                         </p>
                                     </div>
-                                </div>
+                                </Link>
                             ))}
                         </Slider>
+
                     </div>
                 </div>
             </div>
@@ -114,15 +110,14 @@ function Home() {
                     </div>
 
                     {currentCoins.map((coin) => (
-                        <div
+                        <Link
+                            to={`/coin/${coin.id}`}
                             key={coin.id}
                             className="card flex items-center justify-between p-4 bg-transparent rounded-lg shadow-lg text-white"
                         >
                             <div className="flex items-center space-x-4 w-1/4">
                                 <img src={coin.image} alt={coin.name} className="w-10 h-10" />
-                                <Link to={`/coin/${coin.id}`} className="text-lg font-medium">
-                                    {coin.name}
-                                </Link>
+                                <h2 className="text-lg font-medium">{coin.name}</h2>
                             </div>
 
                             <span className="w-1/4 text-center text-lg font-semibold">
@@ -130,9 +125,7 @@ function Home() {
                             </span>
 
                             <div
-                                className={`w-1/4 flex justify-center items-center text-lg font-semibold ${coin.price_change_percentage_24h > 0
-                                        ? 'text-green-400'
-                                        : 'text-red-400'
+                                className={`w-1/4 flex justify-center items-center text-lg font-semibold ${coin.price_change_percentage_24h > 0 ? 'text-green-400' : 'text-red-400'
                                     }`}
                             >
                                 <LuEye className="mr-2" />
@@ -141,8 +134,9 @@ function Home() {
                             <span className="w-1/4 text-right text-lg font-semibold">
                                 {currency} {coin.market_cap.toLocaleString()}
                             </span>
-                        </div>
+                        </Link>
                     ))}
+
                 </div>
 
                 <div className="flex justify-center mt-8">
@@ -154,11 +148,11 @@ function Home() {
                         &lt;
                     </button>
 
-                    {[...Array(Math.ceil(filteredCoins.length / coinsPerPage))].map((_, index) => {
+                    {[...Array(Math.ceil(searchCoin.length / coinsPerPage))].map((_, index) => {
 
                         if (
                             index > 0 &&
-                            index < Math.ceil(filteredCoins.length / coinsPerPage) - 1 &&
+                            index < Math.ceil(searchCoin.length / coinsPerPage) - 1 &&
                             Math.abs(currentPage - (index + 1)) > 2
                         ) {
                             if (index + 1 === currentPage - 3 || index + 1 === currentPage + 3) {
@@ -176,8 +170,8 @@ function Home() {
                                 key={index}
                                 onClick={() => paginate(index + 1)}
                                 className={`px-4 py-2 mx-1 rounded-md ${currentPage === index + 1
-                                        ? "bg-indigo-600 text-white"
-                                        : "bg-transparent text-white hover:bg-gray-700"
+                                    ? "bg-indigo-600 text-white"
+                                    : "bg-transparent text-white hover:bg-gray-700"
                                     }`}
                             >
                                 {index + 1}
@@ -186,7 +180,7 @@ function Home() {
                     })}
                     <button
                         onClick={() => paginate(currentPage + 1)}
-                        disabled={currentPage === Math.ceil(filteredCoins.length / coinsPerPage)}
+                        disabled={currentPage === Math.ceil(searchCoin.length / coinsPerPage)}
                         className="px-4 py-2 mx-1 rounded-md bg-transparent text-white hover:bg-gray-700 disabled:text-gray-500"
                     >
                         &gt;
