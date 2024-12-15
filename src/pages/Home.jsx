@@ -12,7 +12,6 @@ function Home() {
     const [search, setSearch] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [currency, setCurrency] = useState('USD'); 
-
     const coinsPerPage = 10;
 
     useEffect(() => {
@@ -96,9 +95,7 @@ function Home() {
             </div>
 
             <div className="py-10">
-                <h3 className="text-center font-light text-4xl text-white mb-8">
-                    Cryptocurrency Prices by Market Cap
-                </h3>
+                <h3 className="text-center font-light text-4xl text-white mb-8"> Cryptocurrency Prices by Market Cap  </h3>
                 <div className="flex justify-center items-center mb-8">
                     <input
                         className="bg-transparent border-2 border-gray-600 w-[1040px] py-2 px-4 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
@@ -151,20 +148,54 @@ function Home() {
                 </div>
 
                 <div className="flex justify-center mt-8">
-                    {[...Array(Math.ceil(filteredCoins.length / coinsPerPage))].map((_, index) => (
-                        <button
-                            key={index}
-                            onClick={() => paginate(index + 1)}
-                            className={`px-4 py-2 mx-1 rounded-md ${
-                                currentPage === index + 1
-                                    ? 'bg-indigo-600 text-white'
-                                    : 'bg-gray-600 text-white'
-                            }`}
-                        >
-                            {index + 1}
-                        </button>
-                    ))}
-                </div>
+  <button
+    onClick={() => paginate(currentPage - 1)}
+    disabled={currentPage === 1}
+    className="px-4 py-2 mx-1 rounded-md bg-transparent text-white hover:bg-gray-700 disabled:text-gray-500"
+  >
+    &lt; 
+  </button>
+
+  {[...Array(Math.ceil(filteredCoins.length / coinsPerPage))].map((_, index) => {
+
+    if (
+      index > 0 &&
+      index < Math.ceil(filteredCoins.length / coinsPerPage) - 1 &&
+      Math.abs(currentPage - (index + 1)) > 2
+    ) {
+      if (index + 1 === currentPage - 3 || index + 1 === currentPage + 3) {
+        return (
+          <span key={index} className="px-4 py-2 text-gray-400">
+            ...
+          </span>
+        );
+      }
+      return null;
+    }
+
+    return (
+      <button
+        key={index}
+        onClick={() => paginate(index + 1)}
+        className={`px-4 py-2 mx-1 rounded-md ${
+          currentPage === index + 1
+            ? "bg-indigo-600 text-white"
+            : "bg-transparent text-white hover:bg-gray-700"
+        }`}
+      >
+        {index + 1}
+      </button>
+    );
+  })}
+  <button
+    onClick={() => paginate(currentPage + 1)}
+    disabled={currentPage === Math.ceil(filteredCoins.length / coinsPerPage)}
+    className="px-4 py-2 mx-1 rounded-md bg-transparent text-white hover:bg-gray-700 disabled:text-gray-500"
+  >
+    &gt;
+  </button>
+</div>
+
             </div>
         </div>
     );
