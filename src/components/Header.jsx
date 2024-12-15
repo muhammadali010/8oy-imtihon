@@ -7,7 +7,7 @@ function Header({ currency, setCurrency }) {
         <h2 className="text-2xl font-bold text-[#87CEEB]">CRYPTOFOLIO</h2>
       </div>
       <div className="flex gap-5 items-center">
-        <select className="bg-white  border border-gray-600 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-600"  value={currency}  onChange={(e) => setCurrency(e.target.value)}>
+        <select className="bg-white  border border-gray-600 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-600" value={currency} onChange={(e) => setCurrency(e.target.value)}>
           <option value="USD">USD</option>
           <option value="EUR">EUR</option>
           <option value="RUB">RUB</option>

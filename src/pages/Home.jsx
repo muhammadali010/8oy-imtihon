@@ -11,7 +11,7 @@ function Home() {
     const [coins, setCoins] = useState([]);
     const [search, setSearch] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [currency, setCurrency] = useState('USD'); 
+    const [currency, setCurrency] = useState('USD');
     const coinsPerPage = 10;
 
     useEffect(() => {
@@ -21,7 +21,7 @@ function Home() {
             .then((response) => response.json())
             .then((data) => setCoins(data))
             .catch((err) => console.error(err));
-    }, [currency]); 
+    }, [currency]);
 
     const carusel = {
         dots: true,
@@ -78,11 +78,10 @@ function Home() {
                                             {currency} {coin.current_price.toFixed(2)}
                                         </p>
                                         <p
-                                            className={`text-sm font-medium mt-1 ${
-                                                coin.price_change_percentage_24h > 0
+                                            className={`text-sm font-medium mt-1 ${coin.price_change_percentage_24h > 0
                                                     ? 'text-green-400'
                                                     : 'text-red-400'
-                                            }`}
+                                                }`}
                                         >
                                             {coin.price_change_percentage_24h.toFixed(2)}%
                                         </p>
@@ -131,11 +130,10 @@ function Home() {
                             </span>
 
                             <div
-                                className={`w-1/4 flex justify-center items-center text-lg font-semibold ${
-                                    coin.price_change_percentage_24h > 0
+                                className={`w-1/4 flex justify-center items-center text-lg font-semibold ${coin.price_change_percentage_24h > 0
                                         ? 'text-green-400'
                                         : 'text-red-400'
-                                }`}
+                                    }`}
                             >
                                 <LuEye className="mr-2" />
                                 <span>{coin.price_change_percentage_24h.toFixed(2)}%</span>
@@ -148,53 +146,52 @@ function Home() {
                 </div>
 
                 <div className="flex justify-center mt-8">
-  <button
-    onClick={() => paginate(currentPage - 1)}
-    disabled={currentPage === 1}
-    className="px-4 py-2 mx-1 rounded-md bg-transparent text-white hover:bg-gray-700 disabled:text-gray-500"
-  >
-    &lt; 
-  </button>
+                    <button
+                        onClick={() => paginate(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className="px-4 py-2 mx-1 rounded-md bg-transparent text-white hover:bg-gray-700 disabled:text-gray-500"
+                    >
+                        &lt;
+                    </button>
 
-  {[...Array(Math.ceil(filteredCoins.length / coinsPerPage))].map((_, index) => {
+                    {[...Array(Math.ceil(filteredCoins.length / coinsPerPage))].map((_, index) => {
 
-    if (
-      index > 0 &&
-      index < Math.ceil(filteredCoins.length / coinsPerPage) - 1 &&
-      Math.abs(currentPage - (index + 1)) > 2
-    ) {
-      if (index + 1 === currentPage - 3 || index + 1 === currentPage + 3) {
-        return (
-          <span key={index} className="px-4 py-2 text-gray-400">
-            ...
-          </span>
-        );
-      }
-      return null;
-    }
+                        if (
+                            index > 0 &&
+                            index < Math.ceil(filteredCoins.length / coinsPerPage) - 1 &&
+                            Math.abs(currentPage - (index + 1)) > 2
+                        ) {
+                            if (index + 1 === currentPage - 3 || index + 1 === currentPage + 3) {
+                                return (
+                                    <span key={index} className="px-4 py-2 text-gray-400">
+                                        ...
+                                    </span>
+                                );
+                            }
+                            return null;
+                        }
 
-    return (
-      <button
-        key={index}
-        onClick={() => paginate(index + 1)}
-        className={`px-4 py-2 mx-1 rounded-md ${
-          currentPage === index + 1
-            ? "bg-indigo-600 text-white"
-            : "bg-transparent text-white hover:bg-gray-700"
-        }`}
-      >
-        {index + 1}
-      </button>
-    );
-  })}
-  <button
-    onClick={() => paginate(currentPage + 1)}
-    disabled={currentPage === Math.ceil(filteredCoins.length / coinsPerPage)}
-    className="px-4 py-2 mx-1 rounded-md bg-transparent text-white hover:bg-gray-700 disabled:text-gray-500"
-  >
-    &gt;
-  </button>
-</div>
+                        return (
+                            <button
+                                key={index}
+                                onClick={() => paginate(index + 1)}
+                                className={`px-4 py-2 mx-1 rounded-md ${currentPage === index + 1
+                                        ? "bg-indigo-600 text-white"
+                                        : "bg-transparent text-white hover:bg-gray-700"
+                                    }`}
+                            >
+                                {index + 1}
+                            </button>
+                        );
+                    })}
+                    <button
+                        onClick={() => paginate(currentPage + 1)}
+                        disabled={currentPage === Math.ceil(filteredCoins.length / coinsPerPage)}
+                        className="px-4 py-2 mx-1 rounded-md bg-transparent text-white hover:bg-gray-700 disabled:text-gray-500"
+                    >
+                        &gt;
+                    </button>
+                </div>
 
             </div>
         </div>
