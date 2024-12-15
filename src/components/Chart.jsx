@@ -54,7 +54,7 @@ function Chart({ coinId }) {
         },
         grid: { borderColor: '#333' }
     };
-    const series = [
+    const chartSeries = [
         {
             name: 'Price',
             data: chartData.map(item => ({ x: new Date(item[0]), y: item[1] }))
@@ -65,7 +65,7 @@ function Chart({ coinId }) {
             {isLoading ? (
                 <div className="text-white text-center">Loading...</div>
             ) : (
-                <ReactApexChart options={options} series={series} type="line" height={350} />
+                <ReactApexChart options={options} series={chartSeries} type="line" height={350} />
             )}
             <div className="mt-4 flex gap-4 justify-center">
                 {['24h', '30d', '3m', '1y'].map(tf => (
