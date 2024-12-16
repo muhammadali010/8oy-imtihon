@@ -4,27 +4,27 @@ import ReactApexChart from 'react-apexcharts';
 function Chart({ coinId }) {
     const [chartData, setChartData] = useState([]);
     const [timeframe, setTimeframe] = useState('24h');
-    const [isLoading, setIsLoading] = useState(true);
+    const [Loading, setLoading] = useState(true);
 
     useEffect(() => {
-        setIsLoading(true);
+        setLoading(true);
 
-        const daysMapping = {
+        const days = {
             '24h': 1,
             '30d': 30,
             '3m': 90,
             '1y': 365
         };
-        const days = daysMapping[timeframe] || 1;
-        fetch(`https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=${days}`)
+        const day = days[timeframe] || 1;
+        fetch(`https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=${day}`)
             .then(response => response.json())
             .then(data => {
                 setChartData(data.prices);
-                setIsLoading(false);
+                setLoading(false);
             })
             .catch(error => {
-                console.error("Error loading chart data:", error);
-                setIsLoading(false);
+                console.error(error);
+                setLoading(false);
             });
     }, [coinId, timeframe]);
 
@@ -62,7 +62,7 @@ function Chart({ coinId }) {
     ];
     return (
         <div className="w-full mt-10 h-[600px]">
-            {isLoading ? (
+            {Loading ? (
                 <div className="text-white text-center">Loading...</div>
             ) : (
                 <ReactApexChart options={options} series={chartSeries} type="line" height={350} />
